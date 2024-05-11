@@ -7,7 +7,17 @@ canvas {
   width: 100%;
   height: auto;
 }
-
+.clossed {
+  width: 3em;
+  height: 2em;
+  margin: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  color: white;
+  font-family: "Freeman", sans-serif;
+}
 .logo {
   height: 6em;
   padding: 1.5em;
