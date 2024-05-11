@@ -134,9 +134,9 @@ function App() {
         <canvas
           ref={canvasRef}
           style={{ backgroundColor: canvasBackgroundColor }}
-          className="mb-4 w-[20em] mt-8 animate-jump-in animate-duration-700 animate-delay-200 animate-ease-in-out"
+          className="mb-4 w-[20em] h-[20em] mt-8 animate-jump-in animate-duration-700 animate-delay-200 animate-ease-in-out"
         />
-        <div className="absolute my-8 max-w-[30em] text-orange-400 font-bold w-[80%] md:w-[100%] top-[35em] left-[-10] transform -translate-y-1/2">
+        <div className="absolute my-[5em] max-w-[30em] text-orange-400 font-bold w-[80%] md:w-[100%] top-[35em] left-[-10] transform -translate-y-1/2">
           <div className="flex flex-col gap-4 p-4 border-4  bg-gray-100 border-black   rounded">
             <div className="flex items-center gap-2">
               <label htmlFor="x-range">X:</label>
@@ -147,8 +147,10 @@ function App() {
                 onChange={(e) =>
                   handlePositionChange("x", parseInt(e.target.value))
                 }
-                min="0"
-                max="100"
+                min={-(stickerScale * stickerImage.width) / baseImage.width}
+                max={
+                  100 + (stickerScale * stickerImage.width) / baseImage.width
+                }
               />
             </div>
             <div className="flex items-center gap-2">
@@ -160,8 +162,10 @@ function App() {
                 onChange={(e) =>
                   handlePositionChange("y", parseInt(e.target.value))
                 }
-                min="0"
-                max="100"
+                min={-(stickerScale * stickerImage.height) / baseImage.height}
+                max={
+                  100 + (stickerScale * stickerImage.height) / baseImage.height
+                }
               />
             </div>
             <div className="flex items-center gap-2">
