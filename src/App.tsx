@@ -278,6 +278,7 @@ function App() {
           title="DEXTools Trading Chart"
           width="500"
           height="400"
+          className="w-[90%] md:max-w-[30em]"
           src="https://www.dextools.io/widget-chart/en/solana/pe-light/2AvPFAV3nvTtAJpWXsMkcp5onGMNZ6YUYNoaYPjf457r?theme=light&chartType=2&chartResolution=30&drawingToolbars=false"
         ></iframe>
       </div>
