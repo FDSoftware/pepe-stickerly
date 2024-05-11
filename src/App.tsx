@@ -30,7 +30,14 @@ function App() {
   useEffect(() => {
     refreshCanvas();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [baseImageReady, stickerX, stickerY, stickerScale, stickerFlip]);
+  }, [
+    baseImageReady,
+    stickerX,
+    stickerY,
+    stickerScale,
+    stickerFlip,
+    stickerRotation,
+  ]);
 
   const refreshCanvas = () => {
     if (!canvasRef.current || !baseImageReady) return;
@@ -59,7 +66,7 @@ function App() {
         realWidth * (stickerX / 100) + stickerWidth * (stickerScale / 200),
         realHeight * (stickerY / 100) + stickerHeight * (stickerScale / 200)
       );
-
+      ctx?.rotate((stickerRotation * Math.PI) / 180);
       ctx?.scale(-1, 1);
       ctx?.drawImage(
         stickerImage,
@@ -210,8 +217,8 @@ function App() {
                 type="range"
                 value={stickerRotation}
                 onChange={handleRotateChange}
-                min="0"
-                max="360"
+                min="-90"
+                max="90"
                 step="15"
               />
             </div>
