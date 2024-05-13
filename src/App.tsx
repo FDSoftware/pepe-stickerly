@@ -208,7 +208,7 @@ function App() {
                 value={stickerScale}
                 onChange={handleScaleChange}
                 min="25"
-                max="200"
+                max="400"
               />
             </div>
             <div className="flex items-center gap-2">
