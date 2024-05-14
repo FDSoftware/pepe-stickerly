@@ -1,35 +1,35 @@
 import { useState, ChangeEvent, useRef, useEffect } from "react";
 import "./App.css";
 import { ChromePicker, ColorResult } from "react-color";
+
 function App() {
   const [baseImage] = useState<HTMLImageElement>(new Image());
   const [stickerImage] = useState<HTMLImageElement>(new Image());
   const [stickerRotation, setStickerRotation] = useState<number>(0);
-
   const [stickerX, setStickerX] = useState<number>(50);
   const [stickerY, setStickerY] = useState<number>(50);
   const [stickerScale, setStickerScale] = useState<number>(100);
   const [stickerFlip, setStickerFlip] = useState<boolean>(false);
   const [baseImageReady, setBaseImageReady] = useState<boolean>(false);
-  const [showColorPicker, setShowColorPicker] = useState<boolean>(false); // Estado para controlar si el selector de color está abierto o cerrado
-
+  const [showColorPicker, setShowColorPicker] = useState<boolean>(false);
   const [canvasBackgroundColor, setCanvasBackgroundColor] =
     useState<string>("white");
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
   useEffect(() => {
     // Load default sticker
-    stickerImage.src = "/pepe.png";
+    stickerImage.src = "/pepe.webp";
 
     stickerImage.onload = () => {
       refreshCanvas();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    refreshCanvas();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (baseImageReady) {
+      refreshCanvas();
+    }
   }, [
     baseImageReady,
     stickerX,
@@ -39,70 +39,58 @@ function App() {
     stickerRotation,
   ]);
 
-  const refreshCanvas = () => {
-    if (!canvasRef.current || !baseImageReady) return;
-
+  const handleBaseImageLoad = () => {
+    if (!canvasRef.current) return;
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-
     canvas.width = baseImage.width;
     canvas.height = baseImage.height;
-
-    const { width: canvasWidth, height: canvasHeight } = baseImage;
-    const { width: stickerWidth, height: stickerHeight } = stickerImage;
-    const realWidth = canvasWidth - (stickerWidth * stickerScale) / 100;
-    const realHeight = canvasHeight - (stickerHeight * stickerScale) / 100;
-
-    // Clear canvas
-    ctx?.clearRect(0, 0, canvasWidth, canvasHeight);
-
-    // Base Image
-    ctx?.drawImage(baseImage, 0, 0);
-
-    // Sticker Image
-    if (stickerFlip) {
-      ctx?.save();
-      ctx?.translate(
-        realWidth * (stickerX / 100) + stickerWidth * (stickerScale / 200),
-        realHeight * (stickerY / 100) + stickerHeight * (stickerScale / 200)
-      );
-      ctx?.rotate((stickerRotation * Math.PI) / 180);
-      ctx?.scale(-1, 1);
-      ctx?.drawImage(
-        stickerImage,
-        -((stickerWidth * (stickerScale / 100)) / 2),
-        -((stickerHeight * (stickerScale / 100)) / 2),
-        stickerWidth * (stickerScale / 100),
-        stickerHeight * (stickerScale / 100)
-      );
-      ctx?.restore();
-    } else {
-      ctx?.save();
-      ctx?.translate(
-        realWidth * (stickerX / 100) + stickerWidth * (stickerScale / 200),
-        realHeight * (stickerY / 100) + stickerHeight * (stickerScale / 200)
-      );
-      ctx?.rotate((stickerRotation * Math.PI) / 180);
-      ctx?.drawImage(
-        stickerImage,
-        -((stickerWidth * (stickerScale / 100)) / 2),
-        -((stickerHeight * (stickerScale / 100)) / 2),
-        stickerWidth * (stickerScale / 100),
-        stickerHeight * (stickerScale / 100)
-      );
-      ctx?.restore();
-    }
+    setBaseImageReady(true);
   };
+
   const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-
     if (file) {
       baseImage.src = URL.createObjectURL(file);
     }
+    baseImage.onload = handleBaseImageLoad;
+  };
 
-    baseImage.onload = () => {
-      setBaseImageReady(true);
-    };
+  const refreshCanvas = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw base image
+    ctx.drawImage(baseImage, 0, 0);
+
+    // Draw sticker
+    if (stickerFlip) {
+      ctx.save();
+      ctx.translate(canvas.width - stickerX, stickerY);
+      ctx.rotate((stickerRotation * Math.PI) / 180);
+      ctx.scale(-1, 1);
+    } else {
+      ctx.save();
+      ctx.translate(stickerX, stickerY);
+      ctx.rotate((stickerRotation * Math.PI) / 180);
+    }
+
+    const scaledWidth = (stickerScale / 100) * stickerImage.width;
+    const scaledHeight = (stickerScale / 100) * stickerImage.height;
+
+    ctx.drawImage(
+      stickerImage,
+      -scaledWidth / -7,
+      -scaledHeight / 40,
+      scaledWidth / 3,
+      scaledHeight / 3
+    );
+
+    ctx.restore();
   };
 
   const handleRotateChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -112,9 +100,7 @@ function App() {
 
   const handlePositionChange = (axis: "x" | "y", value: number) => {
     if (axis === "x") setStickerX(value);
-
     if (axis === "y") setStickerY(value);
-
     refreshCanvas();
   };
 
@@ -122,6 +108,7 @@ function App() {
     const scale = parseInt(event.target.value);
     setStickerScale(scale);
   };
+
   const handleOpenColorPicker = () => {
     setShowColorPicker(true);
   };
@@ -129,6 +116,7 @@ function App() {
   const handleCloseColorPicker = () => {
     setShowColorPicker(false);
   };
+
   const handleColorChange = (color: ColorResult) => {
     setCanvasBackgroundColor(color.hex);
   };
@@ -140,10 +128,9 @@ function App() {
     const dataURL = canvas.toDataURL("image/png");
     const link = document.createElement("a");
     link.href = dataURL;
-    link.download = "pepe_wif_breasts.png";
+    link.download = "edited_image.png";
     link.click();
   };
-
   return (
     <div className=" flex-col justify-center items-center text-center h-[70em]">
       <h1 className="mb-4 freeman  py-10  animate-jump-in animate-duration-700 animate-ease-in-out">
@@ -251,6 +238,7 @@ function App() {
                   </button>
                 </div>
               )}
+
               <button className="animate-jump-in animate-duration-700 animate-delay-200 animate-ease-in-out  text-white px-3 py-1 rounded">
                 {" "}
                 <a
