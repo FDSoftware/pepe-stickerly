@@ -125,8 +125,8 @@ export function MemeEditor() {
       name: "stickerLayer",
       x: 30, //initial position
       y: 30, //initial position
-      width: 500,
-      height: 500,
+      width: 230,
+      height: 230,
       scaleFactor: 1,
       active: false,
       type: "image",
@@ -382,7 +382,7 @@ export function MemeEditor() {
               onChange={handleImageUpload}
             />
           </label>{" "}
-          <div className="flex m-auto gap-2">
+          <div className="flex m-auto gap-2 items-center">
             <label
               className="block text-white text-md font-bold mb-2"
               htmlFor="username"
@@ -394,16 +394,16 @@ export function MemeEditor() {
                 className="block text-white text-md font-bold mb-2"
                 htmlFor="flipCheckbox"
               >
-                Flip
+                <input
+                  id="flipCheckbox"
+                  type="checkbox"
+                  checked={fliped}
+                  placeholder="add text here"
+                  onChange={() => setFipled((prev) => !prev)}
+                />{" "}
+                <span className="checkmark mt-3 cursor-pointer"></span>
               </label>
             </div>
-            <input
-              id="flipCheckbox"
-              type="checkbox"
-              checked={fliped}
-              placeholder="add text here"
-              onChange={() => setFipled((prev) => !prev)}
-            />
           </div>
           <div className="flex gap-2">
             {stickerArray.map((image) => (
