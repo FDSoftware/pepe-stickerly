@@ -369,86 +369,111 @@ export function MemeEditor() {
 
   return (
     <>
-      <label
-        style={{ whiteSpace: "nowrap" }}
-        className="addbg animate-jump-in animate-duration-700 animate-delay-200 animate-ease-in-out"
-      >
-        Add background
-        <input
-          type="file"
-          style={{ display: "none" }}
-          onChange={handleImageUpload}
-        />
-      </label>
-
-      <canvas
-        id="canvas"
-        width="400"
-        height="300"
-        onMouseDown={(e) => handleCanvasMouseDown(e)}
-        onMouseUp={() => handleCanvasMouseUp()}
-        onMouseMove={(e) => handleCanvasMouseMove(e)}
-        onWheel={(e) => handleResize(e)}
-      />
-
-      <div className="flex gap-2">
-        {stickerArray.map((image) => (
-          <div
-            key={image.id}
-            className="max-w-[6em] m-auto border-2 border-solid border-orange-500 bg-orange-300 box-border rounded-md p-1 my-2 cursor-pointer animate-jump-in"
-            style={{ width: "6em", height: "6em" }}
+      <div className="flex w-full h-full gap-4">
+        <div className=" flex flex-col gap-2">
+          <label
+            style={{ whiteSpace: "nowrap" }}
+            className="addbg animate-jump-in animate-duration-700 animate-delay-200 animate-ease-in-out"
           >
-            <img
-              src={image.src}
-              alt={image.alt}
-              className="w-full h-full  object-fill"
-              style={{ maxWidth: "100%", maxHeight: "100%" }} // Ajustamos la imagen para cubrir completamente el contenedor
-              onClick={() => {
-                setLayers((prev) =>
-                  prev.map((item) => {
-                    if (item.name === "stickerLayer") {
-                      item.img = null;
-                      item.url = image.src;
-                      setStickerImageUrl(image.id);
-                    }
-                    return item;
-                  })
-                );
-              }}
+            Add background
+            <input
+              type="file"
+              style={{ display: "none" }}
+              onChange={handleImageUpload}
+            />
+          </label>{" "}
+          <div className="flex m-auto gap-2">
+            <label
+              className="block text-white text-md font-bold mb-2"
+              htmlFor="username"
+            >
+              Change pepe:
+            </label>{" "}
+            <div>
+              <label
+                className="block text-white text-md font-bold mb-2"
+                htmlFor="flipCheckbox"
+              >
+                Flip
+              </label>
+            </div>
+            <input
+              id="flipCheckbox"
+              type="checkbox"
+              checked={fliped}
+              placeholder="add text here"
+              onChange={() => setFipled((prev) => !prev)}
             />
           </div>
-        ))}
-      </div>
-
-      <div className="mb-4">
-        <label
-          className="block text-white text-md font-bold mb-2"
-          htmlFor="username"
-        >
-          Image Text
-        </label>
-        <input
-          value={canvaText}
-          onChange={(event) => setCanvaText(event.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="username"
-          type="text"
+          <div className="flex gap-2">
+            {stickerArray.map((image) => (
+              <div
+                key={image.id}
+                className="max-w-[6em] m-auto border-2 border-solid border-[#4b0b74] bg-[#8713ce] box-border rounded-md p-1 my-2 cursor-pointer animate-jump-in"
+                style={{ width: "6em", height: "6em" }}
+              >
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  className="w-full h-full  object-fill"
+                  style={{ maxWidth: "100%", maxHeight: "100%" }}
+                  onClick={() => {
+                    setLayers((prev) =>
+                      prev.map((item) => {
+                        if (item.name === "stickerLayer") {
+                          item.img = null;
+                          item.url = image.src;
+                          setStickerImageUrl(image.id);
+                        }
+                        return item;
+                      })
+                    );
+                  }}
+                />
+              </div>
+            ))}
+          </div>{" "}
+          <button
+            className="addbg  animate-jump-in animate-duration-700 animate-delay-200 animate-ease-in-out"
+            onClick={() => {
+              const currentCanvas = document.querySelector(
+                "#canvas"
+              ) as HTMLCanvasElement | null;
+              if (!currentCanvas) return;
+              const link = document.createElement("a");
+              link.download = "imageFileName.png";
+              link.href = currentCanvas.toDataURL("image/png");
+              link.click();
+            }}
+          >
+            Download Image
+          </button>
+        </div>
+        <canvas
+          id="canvas"
+          width="400"
+          height="300"
+          onMouseDown={(e) => handleCanvasMouseDown(e)}
+          onMouseUp={() => handleCanvasMouseUp()}
+          onMouseMove={(e) => handleCanvasMouseMove(e)}
+          onWheel={(e) => handleResize(e)}
         />
-      </div>
 
-      <div>
-        <label
-          className="block text-white text-md font-bold mb-2"
-          htmlFor="flipCheckbox"
-        >
-          Flip
-        </label>
-        <input
-          id="flipCheckbox"
-          type="checkbox"
-          checked={fliped}
-          onChange={() => setFipled((prev) => !prev)}
-        />
+        <div className="mb-4">
+          <label
+            className="block text-white text-md font-bold mb-2"
+            htmlFor="username"
+          >
+            Write here:
+          </label>
+          <input
+            value={canvaText}
+            onChange={(event) => setCanvaText(event.target.value)}
+            className="shadow appearance-none border rounded bg-white text-black w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="username"
+            type="text"
+          />
+        </div>
       </div>
     </>
   );

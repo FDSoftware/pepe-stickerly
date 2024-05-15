@@ -9,12 +9,19 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-image: linear-gradient(
-    to right top,
-    #2cd292,
-    #0a6437,
-    #1ccf6d,
-    #01a545,
-    #054212e5
+    to left bottom,
+    #7400e0,
+    #8800e3,
+    #9b02e6,
+    #ac07e9,
+    #bd0eec,
+    #ae41f5,
+    #9f59fb,
+    #926cff,
+    #6287ff,
+    #2c9cff,
+    #00acff,
+    #29b9f8
   );
   /*  height: 110em; */
   background-repeat: no-repeat;
@@ -93,7 +100,7 @@ input[type="range"]::-moz-range-thumb {
 label {
   font-family: "Freeman", sans-serif;
   font-size: 24px;
-  color: #ffa12b;
+  color: #8713ce;
 }
 .freeman {
   font-family: "Freeman", sans-serif;
@@ -115,17 +122,17 @@ label {
 
   height: 25px;
   width: 25px;
-  background-color: #e99c0e;
+  background-color: #8713ce;
 }
 
 /* On mouse-over, add a grey background color */
 .container:hover input ~ .checkmark {
-  background-color: #f8ba10;
+  background-color: #8713ce;
 }
 
 /* When the checkbox is checked, add a blue background */
 .container input:checked ~ .checkmark {
-  background-color: #2196f3;
+  background-color: #8713ce;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -169,9 +176,12 @@ footer {
   padding: 0.5em;
 }
 body {
-  height: 100vh;
   display: flex;
-  margin: auto;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden; /* Evitar el scroll */
 }
 
 h1 {
@@ -200,7 +210,7 @@ button a {
   font-size: 20px;
   text-align: center;
   text-decoration: none;
-  background-color: #ffa12b;
+  background-color: #8713ce;
   display: block;
   position: relative;
   padding: 15px 25px;
@@ -208,9 +218,9 @@ button a {
   display: flex;
   justify-content: center;
 
-  -webkit-box-shadow: inset 0 1px 0 #ffe5c4, 0 10px 0 #915100;
-  -moz-box-shadow: inset 0 1px 0 #ffe5c4, 0 10px 0 #915100;
-  box-shadow: inset 0 1px 0 #ffe5c4, 0 10px 0 #915100;
+  -webkit-box-shadow: inset 0 1px 0 #ffe5c4, 0 10px 0 #4b0b74;
+  -moz-box-shadow: inset 0 1px 0 #ffe5c4, 0 10px 0 #4b0b74;
+  box-shadow: inset 0 1px 0 #ffe5c4, 0 10px 0 #4b0b74;
 
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -220,11 +230,11 @@ button a {
 .addbg:active,
 button a:active {
   top: 10px;
-  background-color: #f78900;
+  background-color: #4b0b74;
   color: white;
-  -webkit-box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3px 0 #915100;
-  -moz-box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3pxpx 0 #915100;
-  box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3px 0 #915100;
+  -webkit-box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3px 0 #4b0b74;
+  -moz-box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3pxpx 0 #4b0b74;
+  box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3px 0 #4b0b74;
 }
 
 button:after {
@@ -259,7 +269,10 @@ button:focus-visible {
 }
 
 canvas {
+  cursor: pointer;
   margin-top: 2rem;
+  max-width: 30em;
+  max-height: 30em;
 }
 /*checkbox*/
 /* Create a custom checkbox */
@@ -268,17 +281,17 @@ canvas {
 
   height: 25px;
   width: 25px;
-  background-color: #e99c0e;
+  background-color: #8713ce;
 }
 
 /* On mouse-over, add a grey background color */
 .container:hover input ~ .checkmark {
-  background-color: #f8ba10;
+  background-color: #8713ce;
 }
 
 /* When the checkbox is checked, add a blue background */
 .container input:checked ~ .checkmark {
-  background-color: #2196f3;
+  background-color: #8713ce;
 }
 #flipCheckbox {
   width: 1em;

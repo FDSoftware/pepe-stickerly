@@ -10,22 +10,6 @@ function MainApp() {
         </h1>
 
         <MemeEditor />
-
-        <button
-          className="addbg"
-          onClick={() => {
-            const currentCanvas = document.querySelector(
-              "#canvas"
-            ) as HTMLCanvasElement | null;
-            if (!currentCanvas) return;
-            const link = document.createElement("a");
-            link.download = "imageFileName.png";
-            link.href = currentCanvas.toDataURL("image/png");
-            link.click();
-          }}
-        >
-          Download Image
-        </button>
       </div>
       <footer>
         Powered by
