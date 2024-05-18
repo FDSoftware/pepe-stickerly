@@ -30,7 +30,7 @@ const Rectangle: FC<{
     shapeRef.current.cache();
   }, [shapeProps, image, isSelected]);
 
-  const transformEndHandler = (e: any) => {
+  const transformEndHandler = (_e: any) => {
     // transformer is changing scale of the node
     // and NOT its width or height
     // but in the store we have only width and height
